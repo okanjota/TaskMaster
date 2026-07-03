@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'task_list_screen.dart';
 import 'focus_mode_screen.dart';
 import 'calendar_screen.dart';
@@ -13,13 +15,39 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static const _prefsKey = 'taskmaster_tasks';
+
   int _selectedIndex = 0;
   List<Task> tasks = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _loadSampleTasks();
+    _loadTasks();
+  }
+
+  Future<void> _loadTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getString(_prefsKey);
+
+    if (saved != null) {
+      final List<dynamic> decoded = jsonDecode(saved) as List<dynamic>;
+      tasks = decoded
+          .map((item) => Task.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } else {
+      _loadSampleTasks();
+      await _saveTasks();
+    }
+
+    setState(() => _isLoading = false);
+  }
+
+  Future<void> _saveTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final encoded = jsonEncode(tasks.map((t) => t.toJson()).toList());
+    await prefs.setString(_prefsKey, encoded);
   }
 
   void _loadSampleTasks() {
@@ -53,14 +81,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _addTask(Task task) {
     setState(() => tasks.add(task));
+    _saveTasks();
   }
 
   void _updateTasks() {
     setState(() {});
+    _saveTasks();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6B4EFF))),
+      );
+    }
+
     final List<Widget> screens = [
       DashboardContent(tasks: tasks),
       TaskListScreen(tasks: tasks, onTaskUpdated: _updateTasks),
