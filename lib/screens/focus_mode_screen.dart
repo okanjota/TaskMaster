@@ -104,16 +104,14 @@ class _FocusModeScreenState extends State<FocusModeScreen> {
     final minutes = (_seconds ~/ 60).toString().padLeft(2, '0');
     final secs = (_seconds % 60).toString().padLeft(2, '0');
     final progress = _seconds / _totalSeconds;
-    final pendingTasks =
-        widget.tasks.where((t) => !t.isCompleted).toList();
+    final pendingTasks = widget.tasks.where((t) => !t.isCompleted).toList();
 
     return Scaffold(
       backgroundColor: const Color(0xFF1A1A2E),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text('Modo Foco',
-            style: TextStyle(color: Colors.white)),
+        title: const Text('Modo Foco', style: TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
@@ -121,10 +119,10 @@ class _FocusModeScreenState extends State<FocusModeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           child: Column(
             children: [
-              // Task selector
               if (pendingTasks.isNotEmpty)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.white10,
                     borderRadius: BorderRadius.circular(12),
@@ -140,8 +138,8 @@ class _FocusModeScreenState extends State<FocusModeScreen> {
                     items: pendingTasks
                         .map((t) => DropdownMenuItem(
                             value: t,
-                            child: Text(t.title,
-                                overflow: TextOverflow.ellipsis)))
+                            child:
+                                Text(t.title, overflow: TextOverflow.ellipsis)))
                         .toList(),
                     onChanged: (t) => setState(() => _selectedTask = t),
                   ),
@@ -149,10 +147,7 @@ class _FocusModeScreenState extends State<FocusModeScreen> {
               else
                 const Text('Nenhuma tarefa pendente',
                     style: TextStyle(color: Colors.white60)),
-
               const SizedBox(height: 32),
-
-              // Duration selector
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -165,10 +160,7 @@ class _FocusModeScreenState extends State<FocusModeScreen> {
                   _durationChip(60, '60min'),
                 ],
               ),
-
               const SizedBox(height: 40),
-
-              // Timer circle
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -205,10 +197,7 @@ class _FocusModeScreenState extends State<FocusModeScreen> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 48),
-
-              // Controls
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -243,10 +232,7 @@ class _FocusModeScreenState extends State<FocusModeScreen> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 32),
-
-              // Sessions counter
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -261,13 +247,12 @@ class _FocusModeScreenState extends State<FocusModeScreen> {
                     const SizedBox(width: 8),
                     Text(
                       'Sessões concluídas: $_sessionsCompleted',
-                      style: const TextStyle(
-                          color: Colors.white70, fontSize: 15),
+                      style:
+                          const TextStyle(color: Colors.white70, fontSize: 15),
                     ),
                   ],
                 ),
               ),
-
               const SizedBox(height: 20),
             ],
           ),
@@ -290,8 +275,7 @@ class _FocusModeScreenState extends State<FocusModeScreen> {
           label,
           style: TextStyle(
               color: selected ? Colors.white : Colors.white54,
-              fontWeight:
-                  selected ? FontWeight.bold : FontWeight.normal,
+              fontWeight: selected ? FontWeight.bold : FontWeight.normal,
               fontSize: 13),
         ),
       ),

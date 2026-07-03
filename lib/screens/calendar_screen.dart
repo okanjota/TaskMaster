@@ -41,7 +41,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     final firstDay = DateTime(_focusedMonth.year, _focusedMonth.month, 1);
     final daysInMonth =
         DateTime(_focusedMonth.year, _focusedMonth.month + 1, 0).day;
-    final startWeekday = firstDay.weekday % 7; // Sunday = 0
+    final startWeekday = firstDay.weekday % 7;
     final today = DateTime.now();
 
     return Scaffold(
@@ -50,7 +50,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
       body: Column(
         children: [
-          // Month navigator
           Container(
             color: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -71,7 +70,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ],
             ),
           ),
-          // Weekday labels
           Container(
             color: Colors.white,
             child: Row(
@@ -89,7 +87,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
             ),
           ),
           const Divider(height: 1),
-          // Calendar grid
           Container(
             color: Colors.white,
             child: GridView.builder(
@@ -158,7 +155,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
             ),
           ),
           const Divider(height: 1),
-          // Selected day tasks
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(16),
